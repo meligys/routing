@@ -1,0 +1,27 @@
+{
+  "name": "routing",
+  "version": "1.0.0",
+  "description": "Routes declaration made easy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirza99/routing.git"
+  },
+  "keywords": [
+    "routing",
+    "router",
+    "path"
+  ],
+  "author": {
+    "name": "Mirza Selimovic",
+    "url": "https://github.com/mirza99"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mirza99/routing/issues"
+  },
+  "homepage": "https://github.com/mirza99/routing#readme"
+}
