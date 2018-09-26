@@ -1,0 +1,27 @@
+{
+  "name": "@meligys/routing",
+  "version": "1.0.0",
+  "description": "Routes declaration made easy",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirza99/routing.git"
+  },
+  "keywords": [
+    "routing",
+    "router",
+    "path"
+  ],
+  "author": "Mirza Selimovic <info@meligys.com> (https://github.com/mirza99)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mirza99/routing/issues"
+  },
+  "homepage": "https://github.com/mirza99/routing#readme",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
+}
