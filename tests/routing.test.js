@@ -190,7 +190,7 @@ test('that routing removes trailing hashes', () => {
                 path: '/persons',
 
                 findAll: {
-                    host: 'http://yahoo.com/',
+                    host: 'ftp://yahoo.com/',
                     path: '/all'
                 }
             }
@@ -198,5 +198,5 @@ test('that routing removes trailing hashes', () => {
     }
 
     let routing = new Routing(options);
-    expect(routing.generate('persons.findAll')).toBe('http://yahoo.com/persons/all');
+    expect(routing.generate('persons.findAll')).toBe('ftp://yahoo.com/persons/all');
 });
