@@ -17,7 +17,7 @@ test('that routing generates path using resource path and method path', () => {
                     path: '/all'
                 }
             }
-        }   
+        }
     }
 
     let routing = new Routing(options);
@@ -38,7 +38,7 @@ test('that routing uses resource host', () => {
                     path: '/all'
                 }
             }
-        }   
+        }
     }
 
     let routing = new Routing(options);
@@ -60,7 +60,7 @@ test('that routing uses method host', () => {
                     path: '/all'
                 }
             }
-        }   
+        }
     }
 
     let routing = new Routing(options);
@@ -82,7 +82,7 @@ test('that routing transforms id parameter into value', () => {
                     path: '/{id}'
                 }
             }
-        }   
+        }
     }
 
     let routing = new Routing(options);
@@ -104,7 +104,7 @@ test('that routing transforms id parameter into value and not cutting path', () 
                     path: '/{id}/continuePath'
                 }
             }
-        }   
+        }
     }
 
     let routing = new Routing(options);
@@ -127,7 +127,7 @@ test('that routing transforms two parameters into values', () => {
                     path: '/{id}/{name}'
                 }
             }
-        }   
+        }
     }
 
     let routing = new Routing(options);
@@ -149,7 +149,7 @@ test('that routing transforms two parameters into value and not cutting path', (
                     path: '/{id}/{name}/continuePath'
                 }
             }
-        }   
+        }
     }
 
     let routing = new Routing(options);
@@ -172,9 +172,31 @@ test('that routing transforms parameters into value with word in the middle', ()
                     path: '/{id}/word/{name}'
                 }
             }
-        }   
+        }
     }
 
     let routing = new Routing(options);
     expect(routing.generate('persons.findByIdAndName', {id: 'a25f4b6d5', name: 'john'})).toBe('http://yahoo.com/persons/a25f4b6d5/word/john');
+});
+
+test('that routing removes trailing hashes', () => {
+
+    let options = {
+        routes: {
+            host: 'http://google.com',
+
+            persons: {
+                host: 'http://bing.com',
+                path: '/persons',
+
+                findAll: {
+                    host: 'http://yahoo.com/',
+                    path: '/all'
+                }
+            }
+        }
+    }
+
+    let routing = new Routing(options);
+    expect(routing.generate('persons.findAll')).toBe('http://yahoo.com/persons/all');
 });
