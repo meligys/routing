@@ -1,4 +1,4 @@
-# Routing - a simple routes helper. 
+# Routing - a simple routes helper.
 
 > No more hard-coded URI defining like : `fetch('http://example.com/api/persons/' + id).then(....)`. This library has no external deps.
 
@@ -42,10 +42,10 @@ console.log(routing.generate('persons.findAll'));
 console.log(routing.generate('persons.findById', {'id': 1}));
 ```
 
-> You can also externalize the routes file 
+> You can also externalize the routes file
 
 
-First, create a file with routes `routes.js` : 
+First, create a file with routes `routes.js` :
 
 ```
 
@@ -70,7 +70,7 @@ module.exports = {
 
 ```
 
-Then, in the file you are using the router: 
+Then, in the file you are using the router:
 
 ```
 var Routing = require('@meligys/routing');
@@ -87,9 +87,18 @@ console.log(routing.generate('persons.findAll'));
 console.log(routing.generate('persons.findById', {'id': 1}));
 ```
 
+#### Testing your config file
+
+You can test your `routes.js` file by using `tester.js` in the lib folder.
+For example :
+```
+cd lib
+node tester.js ../examples/routes.js
+```
+
 #### With the dependency config (optional)
 
-You may have different environments, so you can have different hosts for each environment. 
+You may have different environments, so you can have different hosts for each environment.
 
 > The following code is not routing specific, it's just a solution to get the routes for the right environment. For more infos about config, please refer to [https://github.com/lorenwest/node-config](https://github.com/lorenwest/node-config)
 
