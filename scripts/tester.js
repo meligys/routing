@@ -1,7 +1,8 @@
-var Routing = require('./routing');
+var Routing = require('../lib/routing');
+var path = require("path");
 
-let path = process.argv[2]
-const routes = require(path);
+let execPath = path.resolve("./")+'/'+process.argv[2]
+const routes = require(execPath);
 
 let options = {
   routes
@@ -9,7 +10,6 @@ let options = {
 
 routing = new Routing(options);
 test(options);
-
 
 function test(options){
 
