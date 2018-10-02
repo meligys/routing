@@ -86,7 +86,7 @@ test('that routing transforms id parameter into value', () => {
     }
 
     let routing = new Routing(options);
-    expect(routing.generate('persons.findById', {id: 'a25f4b6d5'})).toBe('http://yahoo.com/persons/a25f4b6d5');
+    expect(routing.generate('persons.findById', {params: {id: 'a25f4b6d5'}})).toBe('http://yahoo.com/persons/a25f4b6d5');
 });
 
 test('that routing transforms id parameter into value and not cutting path', () => {
@@ -108,7 +108,7 @@ test('that routing transforms id parameter into value and not cutting path', () 
     }
 
     let routing = new Routing(options);
-    expect(routing.generate('persons.findById', {id: 'a25f4b6d5'})).toBe('http://yahoo.com/persons/a25f4b6d5/continuePath');
+    expect(routing.generate('persons.findById', {params: {id: 'a25f4b6d5'}})).toBe('http://yahoo.com/persons/a25f4b6d5/continuePath');
 });
 
 
@@ -131,7 +131,7 @@ test('that routing transforms two parameters into values', () => {
     }
 
     let routing = new Routing(options);
-    expect(routing.generate('persons.findByIdAndName', {id: 'a25f4b6d5', name: 'john'})).toBe('http://yahoo.com/persons/a25f4b6d5/john');
+    expect(routing.generate('persons.findByIdAndName', {params: {id: 'a25f4b6d5', name: 'john'}})).toBe('http://yahoo.com/persons/a25f4b6d5/john');
 });
 
 test('that routing transforms two parameters into value and not cutting path', () => {
@@ -153,7 +153,7 @@ test('that routing transforms two parameters into value and not cutting path', (
     }
 
     let routing = new Routing(options);
-    expect(routing.generate('persons.findByIdAndName', {id: 'a25f4b6d5', name: 'john'})).toBe('http://yahoo.com/persons/a25f4b6d5/john/continuePath');
+    expect(routing.generate('persons.findByIdAndName', {params: {id: 'a25f4b6d5', name: 'john'}})).toBe('http://yahoo.com/persons/a25f4b6d5/john/continuePath');
 });
 
 
@@ -176,7 +176,7 @@ test('that routing transforms parameters into value with word in the middle', ()
     }
 
     let routing = new Routing(options);
-    expect(routing.generate('persons.findByIdAndName', {id: 'a25f4b6d5', name: 'john'})).toBe('http://yahoo.com/persons/a25f4b6d5/word/john');
+    expect(routing.generate('persons.findByIdAndName', {params: {id: 'a25f4b6d5', name: 'john'}})).toBe('http://yahoo.com/persons/a25f4b6d5/word/john');
 });
 
 test('that routing removes trailing hashes', () => {
@@ -199,4 +199,29 @@ test('that routing removes trailing hashes', () => {
 
     let routing = new Routing(options);
     expect(routing.generate('persons.findAll')).toBe('ftp://yahoo.com/persons/all');
+});
+
+
+
+test('that routing can ignore host', () => {
+
+    let options = {
+        routes: {
+            host: 'http://google.com',
+
+            persons: {
+                host: 'http://bing.com',
+                path: '/persons',
+
+                findByIdAndName: {
+                    host: 'http://yahoo.com',
+                    path: '/{id}/word/{name}'
+                }
+            }
+        }
+    }
+
+    let routing = new Routing(options);
+    expect(routing.generate('persons.findByIdAndName', {ignoreHost: true, params: {id: 'a25f4b6d5', name: 'john'}}))
+    .toBe('/persons/a25f4b6d5/word/john');
 });
