@@ -89,12 +89,18 @@ console.log(routing.generate('persons.findById', {'id': 1}));
 
 #### Testing your config file
 
-You can test your `routes.js` file by using `tester.js` in the lib folder.
+You can test the example `routes.js` file by using `tester.js` in the lib folder.
 For example :
 ```
-cd lib
-node tester.js ../examples/routes.js
+node scripts/tester.js examples/routes.js
 ```
+
+If you installed that package through npm, the test would be :
+```
+node node_modules/@meligys/routing/scripts/tester.js node_modules/@meligys/routing/examples/routes.js
+```
+
+You can of course change the last argument to your own config file using a relative path only.
 
 #### With the dependency config (optional)
 
