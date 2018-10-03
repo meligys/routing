@@ -1,4 +1,3 @@
-
 module.exports = {
     host: "http://google.com",
 
@@ -12,5 +11,17 @@ module.exports = {
         findById: {
             path: "/{id}",
         }
-    }
+    },
+
+  notPersons: {
+        path: '/notPersons',
+
+        findAll: {
+            host: 'http://bing.com',
+            path: "/list",
+        },
+        findById: {
+            path: "/{id}",
+        }
+  }
 }
