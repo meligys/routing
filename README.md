@@ -1,5 +1,7 @@
 # Routing - a simple routes helper.
 
+[![CircleCI](https://img.shields.io/circleci/project/github/meligys/routing.svg)](https://circleci.com/gh/meligys/workflows/routing/tree/master) [![Npm Package](https://img.shields.io/npm/v/@meligys/routing.svg)](https://www.npmjs.com/package/@meligys/routing)
+
 > No more hard-coded URI defining like : `fetch('http://example.com/api/persons/' + id).then(....)`. This library has no external deps.
 
 ## Getting started
