@@ -1,6 +1,6 @@
 {
   "name": "@meligys/routing",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Routes declaration made easy",
   "main": "index.js",
   "scripts": {
