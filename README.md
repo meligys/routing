@@ -41,7 +41,7 @@ let options = {
 routing = new Routing(options);
 
 console.log(routing.generate('persons.findAll'));
-console.log(routing.generate('persons.findById', {'id': 1}));
+console.log(routing.generate('persons.findById', {params: {'id': 1}}));
 ```
 
 > You can also externalize the routes file
@@ -86,7 +86,7 @@ let options = {
 routing = new Routing(options);
 
 console.log(routing.generate('persons.findAll'));
-console.log(routing.generate('persons.findById', {'id': 1}));
+console.log(routing.generate('persons.findById', {params: {'id': 1}}));
 ```
 
 #### Testing your config file
@@ -126,7 +126,7 @@ let options = {
 routing = new Routing(options);
 
 console.log(routing.generate('persons.findAll'));
-console.log(routing.generate('persons.findById', {'id': 1}));
+console.log(routing.generate('persons.findById', {params: {'id': 1}}));
 
 ```
 
