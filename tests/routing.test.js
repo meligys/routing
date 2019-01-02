@@ -1,5 +1,9 @@
 const Routing = require('./../lib/routing');
 
+global.console = {
+  log: jest.fn()
+}
+
 test('that routing is instance of class', () => {
     expect(Routing).toBeDefined();
   });
@@ -224,4 +228,28 @@ test('that routing can ignore host', () => {
     let routing = new Routing(options);
     expect(routing.generate('persons.findByIdAndName', {ignoreHost: true, params: {id: 'a25f4b6d5', name: 'john'}}))
     .toBe('/persons/a25f4b6d5/word/john');
+});
+
+test('that missing param in opts returns param in brackets with a console warning', () => {
+
+    let options = {
+        routes: {
+            host: 'http://google.com',
+
+            persons: {
+                host: 'http://bing.com',
+                path: '/persons',
+
+                findById: {
+                    host: 'http://yahoo.com',
+                    path: '/{id}'
+                }
+            }
+        }
+    }
+
+    let routing = new Routing(options);
+    expect(routing.generate('persons.findById'))
+    .toBe('http://yahoo.com/persons/{id}');
+    expect(global.console.log).toHaveBeenCalledWith('Missing parameter for /{id}');
 });
