@@ -1,227 +1,102 @@
 const Routing = require('./../lib/routing');
+const assert = require('assert');
 
-test('that routing is instance of class', () => {
-    expect(Routing).toBeDefined();
-  });
+const options = {
+    routes: {
+        host: 'http://google.com',
 
-test('that routing generates path using resource path and method path', () => {
+        persons: {
+            host: 'http://bing.com',
+            path: '/persons',
 
-    let options = {
-        routes: {
-            host: 'http://google.com',
+            findAll: {
+                path: '/all'
+            },
 
-            persons: {
-                path: '/persons',
+            findAny: {
+                host: 'http://yahoo.com',
+                path: '/any'
+            },
 
-                findAll: {
-                    path: '/all'
-                }
+            findById: {
+                host: 'http://yahoo.com',
+                path: '/{id}'
+            },
+
+            findByIdAndContinue: {
+                host: 'http://yahoo.com',
+                path: '/{id}/continue'
+            },
+
+
+            findByIdAndNameGlued: {
+                host: 'http://yahoo.com',
+                path: '/{id}/{name}'
+            },
+
+            findByIdAndName: {
+                host: 'http://yahoo.com',
+                path: '/{id}/name/{name}'
             }
+        },
+
+        notPersons: {
+            path: '/notPersons',
+
+            findAll: {
+                path: '/all'
+            },
         }
     }
+}
+const routing = new Routing(options);
 
-    let routing = new Routing(options);
-    expect(routing.generate('persons.findAll')).toBe('http://google.com/persons/all');
-});
+describe('Routing', function () {
 
-test('that routing uses resource host', () => {
+    describe('Class', function () {
+        it('should be defined', function () {
+            assert.ok(Routing);
+        });
 
-    let options = {
-        routes: {
-            host: 'http://google.com',
+        it('should generate path using resource path and method path', function () {
+            assert.equal(
+                routing.generate('notPersons.findAll'),
+                'http://google.com/notPersons/all');
+        });
 
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
+        it('should use resource host if defined', function () {
+            assert.equal(
+                routing.generate('persons.findAll'),
+                'http://bing.com/persons/all')
+        });
 
-                findAll: {
-                    path: '/all'
-                }
-            }
-        }
-    }
+        it('should use method host', function () {
+            assert.equal(
+                routing.generate('persons.findAny'),
+                'http://yahoo.com/persons/any')
+        });
 
-    let routing = new Routing(options);
-    expect(routing.generate('persons.findAll')).toBe('http://bing.com/persons/all');
-});
+        it('should transform a parameter into its value', function () {
+            assert.equal(
+                routing.generate('persons.findById', { params: { id: 'a25f4b6d5' } }),
+                'http://yahoo.com/persons/a25f4b6d5');
+        });
 
-test('that routing uses method host', () => {
+        it('should not cut the path when transforming a parameter into its value', function () {
+            assert.equal(
+                routing.generate('persons.findByIdAndContinue', { params: { id: 'a25f4b6d5' } }),
+                'http://yahoo.com/persons/a25f4b6d5/continue');
+        });
 
-    let options = {
-        routes: {
-            host: 'http://google.com',
-
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
-
-                findAll: {
-                    host: 'http://yahoo.com',
-                    path: '/all'
-                }
-            }
-        }
-    }
-
-    let routing = new Routing(options);
-    expect(routing.generate('persons.findAll')).toBe('http://yahoo.com/persons/all');
-});
-
-test('that routing transforms id parameter into value', () => {
-
-    let options = {
-        routes: {
-            host: 'http://google.com',
-
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
-
-                findById: {
-                    host: 'http://yahoo.com',
-                    path: '/{id}'
-                }
-            }
-        }
-    }
-
-    let routing = new Routing(options);
-    expect(routing.generate('persons.findById', {params: {id: 'a25f4b6d5'}})).toBe('http://yahoo.com/persons/a25f4b6d5');
-});
-
-test('that routing transforms id parameter into value and not cutting path', () => {
-
-    let options = {
-        routes: {
-            host: 'http://google.com',
-
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
-
-                findById: {
-                    host: 'http://yahoo.com',
-                    path: '/{id}/continuePath'
-                }
-            }
-        }
-    }
-
-    let routing = new Routing(options);
-    expect(routing.generate('persons.findById', {params: {id: 'a25f4b6d5'}})).toBe('http://yahoo.com/persons/a25f4b6d5/continuePath');
-});
-
-
-test('that routing transforms two parameters into values', () => {
-
-    let options = {
-        routes: {
-            host: 'http://google.com',
-
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
-
-                findByIdAndName: {
-                    host: 'http://yahoo.com',
-                    path: '/{id}/{name}'
-                }
-            }
-        }
-    }
-
-    let routing = new Routing(options);
-    expect(routing.generate('persons.findByIdAndName', {params: {id: 'a25f4b6d5', name: 'john'}})).toBe('http://yahoo.com/persons/a25f4b6d5/john');
-});
-
-test('that routing transforms two parameters into value and not cutting path', () => {
-
-    let options = {
-        routes: {
-            host: 'http://google.com',
-
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
-
-                findByIdAndName: {
-                    host: 'http://yahoo.com',
-                    path: '/{id}/{name}/continuePath'
-                }
-            }
-        }
-    }
-
-    let routing = new Routing(options);
-    expect(routing.generate('persons.findByIdAndName', {params: {id: 'a25f4b6d5', name: 'john'}})).toBe('http://yahoo.com/persons/a25f4b6d5/john/continuePath');
-});
-
-
-test('that routing transforms parameters into value with word in the middle', () => {
-
-    let options = {
-        routes: {
-            host: 'http://google.com',
-
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
-
-                findByIdAndName: {
-                    host: 'http://yahoo.com',
-                    path: '/{id}/word/{name}'
-                }
-            }
-        }
-    }
-
-    let routing = new Routing(options);
-    expect(routing.generate('persons.findByIdAndName', {params: {id: 'a25f4b6d5', name: 'john'}})).toBe('http://yahoo.com/persons/a25f4b6d5/word/john');
-});
-
-test('that routing removes trailing hashes', () => {
-
-    let options = {
-        routes: {
-            host: 'http://google.com',
-
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
-
-                findAll: {
-                    host: 'ftp://yahoo.com/',
-                    path: '/all'
-                }
-            }
-        }
-    }
-
-    let routing = new Routing(options);
-    expect(routing.generate('persons.findAll')).toBe('ftp://yahoo.com/persons/all');
-});
-
-
-
-test('that routing can ignore host', () => {
-
-    let options = {
-        routes: {
-            host: 'http://google.com',
-
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
-
-                findByIdAndName: {
-                    host: 'http://yahoo.com',
-                    path: '/{id}/word/{name}'
-                }
-            }
-        }
-    }
-
-    let routing = new Routing(options);
-    expect(routing.generate('persons.findByIdAndName', {ignoreHost: true, params: {id: 'a25f4b6d5', name: 'john'}}))
-    .toBe('/persons/a25f4b6d5/word/john');
+        it('should transform multiple parameters to their value', function () {
+            assert.equal(
+                routing.generate('persons.findByIdAndNameGlued', { params: { id: 'a25f4b6d5', name: 'john' } }),
+                'http://yahoo.com/persons/a25f4b6d5/john');
+        });
+        it('should not cut path when transforming multiple parameters to their value', function () {
+            assert.equal(
+                routing.generate('persons.findByIdAndName', { params: { id: 'a25f4b6d5', name: 'john' } }),
+                'http://yahoo.com/persons/a25f4b6d5/name/john');
+        });
+    });
 });

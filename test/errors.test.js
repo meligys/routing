@@ -1,67 +1,57 @@
 const Routing = require('./../lib/routing');
+const assert = require('assert');
 
-test('that missing protocol in route definition returns error', () => {
+const options = {
+    routes: {
+        host: 'http://google.com',
 
-    let options = {
-        routes: {
-            host: 'http://google.com',
+        persons: {
+            host: 'http://bing.com',
+            path: '/persons',
 
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
+            findAll: {
+                host: 'ftp://yahoo.com/',
+                path: '/all'
+            },
 
-                findAll: {
-                    host: 'yahoo.com/',
-                    path: '/all'
-                }
+            findAny: {
+                host: 'yahoo.com/',
+                path: 'all'
             }
         }
     }
+}
+const routing = new Routing(options);
 
-    let routing = new Routing(options);
-    expect(function(){routing.generate('persons.findAll');}).toThrow(new Error('Route definition must have a protocol'));
-});
+describe('Errors', function () {
 
-test('that missing route definition returns an error', () => {
+    describe('Missing protocol in route definition', function () {
+        it('should return a route definition error', function () {
+            assert.throws(
+                function () { routing.generate('persons.findAny'); },
+                Error,
+                new Error('Route definition must have a protocol')
+            );
+        });
+    });
 
-    let options = {
-        routes: {
-            host: 'http://google.com',
+    describe('Missing route definition', function () {
+        it('should return a missing route error that precises which call fails', function () {
+            assert.throws(
+                function () { routing.generate('persons.findByMyself'); },
+                Error,
+                new Error('No route defined with the following parameters: persons.findByMyself')
+            );
+        });
+    });
 
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
-
-                findAll: {
-                    host: 'yahoo.com/',
-                    path: '/all'
-                }
-            }
-        }
-    }
-
-    let routing = new Routing(options);
-    expect(function(){routing.generate('persons.findByMyself');}).toThrow(new Error('No route defined with the following parameters: persons.findByMyself'));
-});
-
-test('that missing method returns an error', () => {
-
-    let options = {
-        routes: {
-            host: 'http://google.com',
-
-            persons: {
-                host: 'http://bing.com',
-                path: '/persons',
-
-                findAll: {
-                    host: 'ftp://yahoo.com/',
-                    path: '/all'
-                }
-            }
-        }
-    }
-
-    let routing = new Routing(options);
-    expect(function(){routing.generate('persons');}).toThrow(new Error('Both a resource and method must be specified'));
+    describe('Missing method', function () {
+        it('should return a missing resource or method error', function () {
+            assert.throws(
+                function () { routing.generate('persons'); },
+                Error,
+                new Error('Both a resource and method must be specified')
+            );
+        });
+    });
 });
