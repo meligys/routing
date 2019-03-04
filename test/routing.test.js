@@ -46,6 +46,11 @@ const options = {
             findAll: {
                 path: '/all'
             },
+
+            testDoubleSlashes: {
+                host: 'http:///yahoo.com/',
+                path: '/doubleSlash'
+            }
         }
     }
 }
@@ -101,7 +106,7 @@ describe('Routing', function () {
         it('should remove `//` except for the protocol', function () {
             assert.equal(
                 routing.generate('notPersons.testDoubleSlashes'),
-                'http://yahoo.com/notPersons/doubleSlash/'
+                'http://yahoo.com/notPersons/doubleSlash'
             );
         })
     });
