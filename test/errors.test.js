@@ -10,13 +10,8 @@ const options = {
             path: '/persons',
 
             findAll: {
-                host: 'ftp://yahoo.com/',
+                host: 'yahoo.com',
                 path: '/all'
-            },
-
-            findAny: {
-                host: 'yahoo.com/',
-                path: 'all'
             }
         }
     }
@@ -24,33 +19,20 @@ const options = {
 const routing = new Routing(options);
 
 describe('Errors', function () {
-
-    describe('Missing protocol in route definition', function () {
-        it('should return a route definition error', function () {
+    describe('Checks', function () {
+        it('should return error when protocol is missing', function () {
             assert.throws(
-                function () { routing.generate('persons.findAny'); },
+                function () { routing.generate('persons.findAll') },
                 Error,
                 new Error('Route definition must have a protocol')
             );
         });
-    });
 
-    describe('Missing route definition', function () {
-        it('should return a missing route error that precises which call fails', function () {
+        it('should return error on missing route definition', function () {
             assert.throws(
-                function () { routing.generate('persons.findByMyself'); },
+                function () { routing.generate('persons.findAny') },
                 Error,
-                new Error('No route defined with the following parameters: persons.findByMyself')
-            );
-        });
-    });
-
-    describe('Missing method', function () {
-        it('should return a missing resource or method error', function () {
-            assert.throws(
-                function () { routing.generate('persons'); },
-                Error,
-                new Error('Both a resource and method must be specified')
+                new Error('No route defined with the following parameters: persons.findAny')
             );
         });
     });
