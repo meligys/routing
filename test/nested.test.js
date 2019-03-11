@@ -66,28 +66,28 @@ describe('Nested', function () {
 
         it('should generate correct path from shrinked target', function () {
             assert.equal(
-                routing.getRoute('persons.getSecondLetter'),
+                routing.generate('persons.getSecondLetter'),
                 'http://yahoo.com/persons/{id}/name/{name}/secondLetter'
             );
         });
 
         it('should generate correct from a different source than the first one', function () {
             assert.equal(
-                routing.getRoute('notPersons.getSecondLetter'),
+                routing.generate('notPersons.getSecondLetter'),
                 'http://yahoo.com/notPersons/{id}/name/{name}/secondLetter'
             );
         });
 
         it('should not keep the path preceding its definition in cache', function () {
             assert.equal(
-                routing.getRoute('persons.findEverywhere'),
+                routing.generate('persons.findEverywhere'),
                 'http://bing.com/persons/everywhere'
             );
         });
 
         it('should fix any `/` non-occurences', function () {
             assert.equal(
-                routing.getRoute('notPersons.testDoubleSlashes'),
+                routing.generate('notPersons.testDoubleSlashes'),
                 'http://yahoo.com/notPersons/{id}/name/{name}/doubleSlash'
             );
         })
