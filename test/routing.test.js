@@ -46,6 +46,11 @@ const options = {
             findAll: {
                 path: '/all'
             },
+
+            testDoubleSlashes: {
+                host: 'http:///yahoo.com/',
+                path: '/doubleSlash'
+            }
         }
     }
 }
@@ -98,5 +103,11 @@ describe('Routing', function () {
                 routing.generate('persons.findByIdAndName', { params: { id: 'a25f4b6d5', name: 'john' } }),
                 'http://yahoo.com/persons/a25f4b6d5/name/john');
         });
+        it('should remove `//` except for the protocol', function () {
+            assert.equal(
+                routing.generate('notPersons.testDoubleSlashes'),
+                'http://yahoo.com/notPersons/doubleSlash'
+            );
+        })
     });
 });
