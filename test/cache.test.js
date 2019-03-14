@@ -23,9 +23,9 @@ describe('Cache', function () {
         it('should create and remove cache at default location', function () {
 
             const cache = new Cache();
-            assert.equal(fs.existsSync('./cache.dat'), true);
+            assert.equal(fs.existsSync(cache.getDefaultCacheLocation()), true);
             cache.remove();
-            assert.equal(fs.existsSync('./cache.dat'), false);
+            assert.equal(fs.existsSync(cache.getDefaultCacheLocation()), false);
         });
 
         it('should be able to write and regenerate a json', function () {
