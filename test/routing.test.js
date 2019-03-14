@@ -109,5 +109,15 @@ describe('Routing', function () {
                 'http://yahoo.com/notPersons/doubleSlash'
             );
         })
+        it('should ignore host when precised', function () {
+            assert.equal(
+                routing.generate('persons.findById', { ignoreHost: true, params: { id: 'a25f4b6d5' } }),
+                '/persons/a25f4b6d5');
+        });
+        it('no error on ignore host on no `/` character path', function () {
+            assert.equal(
+                routing.generate('persons', { ignoreHost: true, params: { id: 'a25f4b6d5' } }),
+                '/persons');
+        });
     });
 });
