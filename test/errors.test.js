@@ -1,7 +1,7 @@
 const Routing = require('./../lib/routing');
 const assert = require('assert');
 
-const options = {
+const optionsWithMissingProtocol = {
     routes: {
         host: 'http://google.com',
 
@@ -16,13 +16,25 @@ const options = {
         }
     }
 }
+
+const options = {
+    routes: {
+        host: 'http://google.com',
+
+        persons: {
+            host: 'http://bing.com',
+            path: '/persons',
+        }
+    }
+}
+
 const routing = new Routing(options);
 
 describe('Errors', function () {
     describe('Checks', function () {
         it('should return error when protocol is missing', function () {
             assert.throws(
-                function () { routing.generate('persons.findAll') },
+                function () { new Routing(optionsWithMissingProtocol); },
                 Error,
                 new Error('Route definition must have a protocol')
             );
